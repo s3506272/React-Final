@@ -61,7 +61,7 @@ function SearchForm(props) {
 
                     </div>
                     <div className="col-sm-2 btn-search align-self-end">
-                        <button aria-invalid={errors.searchJob ? "true" : "false"} className="btn btn-primary">{loading ? <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search</> : "Search"}</button>
+                        <button className="btn btn-primary">{loading ? <><span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> Search</> : "Search"}</button>
                     </div>
                 </form>
             </div>
