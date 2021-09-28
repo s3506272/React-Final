@@ -1,0 +1,28 @@
+.pagination{
+  display: flex;
+  justify-content: center;
+  margin-top:50px;
+  flex-wrap:wrap;
+}
+
+/* Need to test this with << >> and the border radius */
+.pagination a{
+  display:block;
+  padding:15px 25px;
+  border-radius:100%;
+  margin:5px;
+  background-color: #ed7966;
+  color:#fff;
+  transition: all .3s;
+}
+
+.pagination a:hover{
+  background-color:#e9523b;
+}
+/* disable the link could also do this conditionally by removing the href */
+a.current{
+  cursor: not-allowed;
+  background-color: #303179;
+  pointer-events: none;
+  text-decoration: none;
+}
