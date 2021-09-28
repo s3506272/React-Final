@@ -13,12 +13,13 @@ on:
 defaults:
   run:
     working-directory: jobs-frontend
-
+env:
+   CI: ""
+   
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-       CI: ""
+
        
     steps:
       - uses: actions/checkout@v2
