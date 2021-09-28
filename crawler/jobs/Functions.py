@@ -21,7 +21,7 @@ def format_job_count(tmp_str):
 
 
 # function to create a dictionary of job titles and corresponding salaries
-def create_title_salary_dict(title, salary, source, post_date, job_url):
+def create_title_salary_dict(id, title, salary, source, post_date, job_url):
 
 
     # determine the number of jobs
@@ -31,6 +31,7 @@ def create_title_salary_dict(title, salary, source, post_date, job_url):
     # loop through all jobs
     for i in range(max_val):
         salary_dict.append({
+            'id': id[i],
             'title': title[i],
             'salary': salary[i],
             'post-date' : post_date[i],
@@ -91,6 +92,7 @@ def export_json(seek, indeed, career_one, job_search):
     for website in websites:
         for job in website:
             output['results'].append({
+                'id': job['id'], 
                 'title': job['title'],
                 'salary': job['salary'],
                 'post-date': job['post-date'],

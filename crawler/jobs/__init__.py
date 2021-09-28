@@ -8,6 +8,8 @@
 # 13.10: JC - Add Azure connection string as configuration setting
 # 13.10: JC - Update to use Azure Function tmp storage folder
 # 19.10: JC - Update to use Github actions workflow for push to server 2
+# 23.09: JC - Update to serve JSON and remove blob storage functionality
+# 28.09: JC - Add total job count to returned JSON 
 # **************************************************************
 
 # **************************************************************
@@ -60,6 +62,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             #create instance of Runtime class from main file
             rt = Runtime()
             jobs, end, total_saved = rt.search(job,location)
+
+            jobs.update({"total": total_saved})
             
             print(jobs, ' ', end, ' ', total_saved )
 

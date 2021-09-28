@@ -34,10 +34,11 @@ MAX_PAGES = 2
 
 class AbstractSearch(ABC):
     # constructor
-    def __init__(self, url):
+    def __init__(self, url, location):
 
         # instance variables
         self._url = url
+        self._location = location
         self._num_results = 0
         self._num_jobs = 0
         self._job_dict = {}
@@ -82,22 +83,19 @@ class AbstractSearch(ABC):
 # SEEK CLASS
 # **********************************************************************************
 class SeekSearch(AbstractSearch):
-    print("in seek")
+
     # calculate and return the number of jobs
     def calc_num_jobs(self):
-        print("in seek 1")
-        print("in seek 1: ", self._url)
+
         # create the soup for the first page
         _page = self._requests_session.get(self._url)
         self._soup = BeautifulSoup(_page.content, 'html.parser')
 
         # determine the number of results
         self._num_jobs = self._soup.find(attrs={"data-automation": "totalJobsCount"}).get_text()
-        print("in seek 1: ", self._num_jobs)
 
     # getter to return the number of jobs
     def get_num_jobs(self):
-        print("in seek 2: ", self._num_jobs)
         return self._num_jobs
 
     # getter to return the jobs dictionary
@@ -106,17 +104,17 @@ class SeekSearch(AbstractSearch):
 
     # complete the job search and update the jobs dictionary
     def calc_jobs(self):
-        print("in seek 3 : ", self._url)
+
         # start by calculating the number of jobs which is required to determine if there are any jobs to search
         self.calc_num_jobs()
 
         # only complete the search if there are results, otherwise update values for 0 results
         if self._num_jobs != '0':
-            print("in seek 4")
+
             # create a collection of all links to the job pages
             all_pages = self._soup.find(class_='_1YM701W')
             list_pages = [item.get('href') for item in all_pages.find_all('a')]
-            print('list_pages: ', list_pages )
+
             # if there are more than 1 links the last link will be 'next'
             # remove the next link
             if len(list_pages) > 1:
@@ -154,7 +152,12 @@ class SeekSearch(AbstractSearch):
 
         # specify the element which contains the results
         seek_jobs = self._soup.find(class_='_1UfdD4q')
-        job_items = (seek_jobs.find_all('article', attrs={'data-automation': 'normalJob'}))
+        loc = 'tier1job' if self._location.isnumeric() else 'normalJob'
+
+        job_items = (seek_jobs.find_all('article', attrs={'data-automation': loc}))
+
+        # Create a collection of ids
+        ids = [item.get('data-job-id') for item in job_items]
 
         # create collection of job titles from job_items
         titles = [item.get('aria-label') for item in job_items]
@@ -184,7 +187,7 @@ class SeekSearch(AbstractSearch):
             job_urls.append(url)
 
         # return a dictionary of job titles and salaries
-        return Functions.create_title_salary_dict(titles, salaries, 'seek', dates, job_urls)
+        return Functions.create_title_salary_dict(ids, titles, salaries, 'seek', dates, job_urls)
 
 
 # **********************************************************************************
@@ -291,6 +294,8 @@ class IndeedSearch(AbstractSearch):
         # create a collection of all the jobs
         job_items = (jobs.find_all('a', recursive=False))
 
+        # Create a collection of ids
+        ids = [item.attrs.get('data-jk') for item in job_items]
 
         # create a collection of all the title extracted from the job links
         titles = [item.find(class_='jobTitle').find('span', recursive=False).get_text() for item in job_items]
@@ -322,7 +327,7 @@ class IndeedSearch(AbstractSearch):
             job_urls.append(url)
 
         # return a dictionary of job titles and salaries
-        return Functions.create_title_salary_dict(titles, salaries, 'indeed', dates, job_urls)
+        return Functions.create_title_salary_dict(ids, titles, salaries, 'indeed', dates, job_urls)
 
 
 # **********************************************************************************
@@ -340,6 +345,7 @@ class CareerOneSearch(AbstractSearch):
         # extract the number of jobs from webpage
         num = self._soup.find(class_='srh-page').get_text()
         num = num.strip()
+        print("dasduhasudiasihd", num)
 
         # no results
         if self.search_empty() is True:
@@ -416,12 +422,20 @@ class CareerOneSearch(AbstractSearch):
         items = (jobs.find_all(class_='job__right'))
 
         # create a collection of all the titles, salaries and URLs extracted from the job links
+        ids = []
         titles = []
         salaries = []
         job_urls = []
         dates = []
 
         for item in items:
+
+            # Create a collection of ids
+            urlId = item.find('a')
+
+            id= urlId['href'].split("/")[-1]
+
+            ids.append(id)
 
             # title
             title = item.find('a').get_text()
@@ -467,7 +481,7 @@ class CareerOneSearch(AbstractSearch):
             job_urls.append(url)
 
         # return a dictionary of job titles and salaries
-        return Functions.create_title_salary_dict(titles, salaries, 'career-one', dates, job_urls)
+        return Functions.create_title_salary_dict(ids, titles, salaries, 'career-one', dates, job_urls)
 
     # helper method to determine if there are no search results
     def search_empty(self):

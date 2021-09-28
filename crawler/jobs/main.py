@@ -68,6 +68,7 @@ class Runtime:
 
     def search(self, job, location):
 
+        print(location)
         # start the timer to measure performance of the query
         start = time.time()
 
@@ -107,7 +108,7 @@ class Runtime:
 
         # complete the multi threading operation
         with concurrent.futures.ThreadPoolExecutor(max_workers=threads) as executor:
-            executor.map(self.multi_threading, url)
+            executor.map(self.multi_threading, url, search_location)
 
         # if any job search failed send an empty results dictionary
         if 'SEEK' in self._failure:
@@ -180,26 +181,26 @@ class Runtime:
         return jobs, (end - start), total_saved
 
     # helper function to support running job searches concurrently using multi threading
-    def multi_threading(self, url):
+    def multi_threading(self, url, location):
 
         source, target_url = url
 
         if source == 'seek':
-            self.seek(target_url)
+            self.seek(target_url, location)
         elif source == 'indeed':
-            self.indeed(target_url)
+            self.indeed(target_url, location)
         elif source == 'careerone':
-            self.career_one(target_url)
+            self.career_one(target_url, location)
         elif source == 'neuvoo':
-            self.neuvoo(target_url)
+            self.neuvoo(target_url, location)
 
     # SEEK
-    def seek(self, url):
+    def seek(self, url, location):
 
         try:
 
             # create instance of SeekSearch class and complete search
-            seek = SeekSearch(url)
+            seek = SeekSearch(url, location)
             seek.calc_jobs()
             seek_job_results = seek.get_jobs()
 
@@ -226,12 +227,12 @@ class Runtime:
         self._end_seek = time.time()
 
     # INDEED
-    def indeed(self, url):
+    def indeed(self, url, location):
 
         try:
 
             # instantiate the class and complete search
-            indeed = IndeedSearch(url)
+            indeed = IndeedSearch(url, location)
             indeed.calc_jobs()
             indeed_job_results = indeed.get_jobs()
 
@@ -258,12 +259,12 @@ class Runtime:
         self._end_indeed = time.time()
 
     # CAREER ONE
-    def career_one(self, url):
+    def career_one(self, url, location):
 
         try:
 
             # instantiate the class and complete the search
-            career_one = CareerOneSearch(url)
+            career_one = CareerOneSearch(url, location)
             career_one.calc_jobs()
             career_one_job_results = career_one.get_jobs()
 
@@ -290,11 +291,11 @@ class Runtime:
         self._end_career_one = time.time()
 
     # NEUVOO
-    def neuvoo(self, url):
+    def neuvoo(self, url, location):
 
         try:
             # instantiate the class and complete the search
-            neuvoo = NeuvooSearch(url)
+            neuvoo = NeuvooSearch(url, location)
             neuvoo.calc_jobs()
             neuvoo_job_results = neuvoo.get_jobs()
 
