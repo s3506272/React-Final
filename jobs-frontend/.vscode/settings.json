@@ -1,0 +1,5 @@
+{
+    "appService.showBuildDuringDeployPrompt": false,
+    "appService.defaultWebAppToDeploy": "/subscriptions/a620115e-f942-4a09-977b-51870b680bfc/resourceGroups/jobsearch/providers/Microsoft.Web/sites/jobsearchreact",
+    "appService.deploySubpath": "."
+}
