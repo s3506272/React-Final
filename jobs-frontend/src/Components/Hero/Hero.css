@@ -1,0 +1,53 @@
+
+.anim-text {
+  text-transform: uppercase;
+  width:450px;
+  display:block;
+  overflow:hidden;
+}
+
+.hero {
+  display:flex;
+  animation: show 10s linear infinite;
+}
+
+
+.hero > div > div {
+  padding:4px 12px;
+  width:450px;
+  color:#fff;
+  display:inline-block;
+}
+
+.hero div div {
+  background:#ed7966;
+}
+.hero div:first-child div{
+  background:#303179;
+}
+.hero div:last-child div{
+  background:#50ccc6;
+}
+
+.hero-section > h2, 
+.hero-section > div,
+.hero-section > h3{
+   padding: .1em 0em;
+   font-size: 3em;
+   font-weight:700;
+}
+
+.hero-section p{
+  font-size:1.4em;
+  margin-top:1.4em;
+}
+
+@keyframes show {
+
+  0%, 14%, 84%, 100% {transform:translate3d(0px,0,0); opacity: 1}
+  17%, 48% {transform:translate3d(-450px,0,0); opacity: 1}
+  51%, 81% {transform:translate3d(-900px,0,0); opacity: 1}
+  /* 14.3%, 16.5% {opacity: 0}
+  48.3%, 50.5% {opacity: 0}
+  80.7%, 83.5% {opacity: 0} */
+}
