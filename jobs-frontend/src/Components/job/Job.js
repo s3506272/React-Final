@@ -5,7 +5,8 @@ import React from 'react';
 
 const Job = (props) => {
 
-    const { "job-url": url, "post-date": date, salary, source, title, id } = props.job;
+    const { "job-url": url, "post-date": date, salary, source, title } = props.job;
+
     const favouriteJobs = useSelector(state => state.favouriteJobs);
     const dispatch = useDispatch();
 
@@ -48,7 +49,7 @@ const Job = (props) => {
                                 <p className="">Posted: {date}</p>
                             </div>
                             <div className="col-5 text-end">
-                                <a className="btn btn-primary" target="_blank" href={url}>Apply on {source}</a>
+                                <a className="btn btn-primary" target="_blank" rel="noopener" href={url}>Apply on {source}</a>
                             </div>
                         </div>
 

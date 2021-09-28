@@ -29,10 +29,12 @@ const SearchResults = (props) => {
             return;
         }
 
+        // Clear old job results
         dispatch({
             type: 'jobs/set_jobs', jobResults: []
         })
 
+        // Se loading to true
         dispatch({
             type: 'jobs/set_loading', loading: true
         })

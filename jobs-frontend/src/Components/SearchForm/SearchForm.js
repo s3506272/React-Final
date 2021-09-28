@@ -21,7 +21,7 @@ function SearchForm(props) {
     }
 
     return (
-        <section className={`${location.pathname === "/" ? "pb-5 home-form" : "bg-form pt-3 pb-4"}`}>
+        <section className={`${location.pathname === "/" ? "pb-5 px-5 home-form" : "bg-form pt-3 pb-4"}`}>
             <div className={`container main-form`}>
                 <form className="row" onSubmit={handleSubmit(onSubmit)}>
                     <div className="col-sm-5">

@@ -3,7 +3,7 @@ import './Hero.css';
 const Hero = (props) => {
 
     return (
-        <section className="container py-5 hero-section">
+        <section className="container px-5 py-5 hero-section">
             <h2>I want</h2>
             <div className="anim-text">
                 <div className="hero">
