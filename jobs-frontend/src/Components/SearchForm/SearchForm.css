@@ -1,0 +1,100 @@
+.bg-form{
+    background-color:#303179;
+    color:#fff;
+}
+
+.home-form input{
+        border:4px solid;
+        border-color:#ed7966;
+
+}
+
+.home-form .icon{
+    top:4px!important;
+    right:3px;
+}
+.home-form input:focus{
+    border:4px solid;
+    border-color:#e9523b;
+}
+
+.home-form label{
+    color: #ed7966;
+}
+
+.home-form input[aria-invalid='true'] {
+        border-color: red;
+        box-shadow:none;
+}
+
+.main-form form div div{
+   position: relative;
+}
+
+.main-form input{
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 15px;
+    width:100%;
+    transition:all .3s;
+}
+
+.main-form label{
+    font-weight:900;
+    font-size:1.2em;
+    width:100%;
+}
+
+.btn-search span {
+     width: .9em;
+     height:.9em;
+     color:#fff;
+}
+
+.btn-search button{
+    padding: 14px 0px;
+    width:100%;
+    border-radius: 15px;
+    font-size:1.2em;
+    background-color:#ed7966;
+    transition: all .3s;
+    color:#fff;
+    border:none;
+    font-weight:700;
+    transition: background-color .3s;
+}
+
+.btn-search button:hover{
+  background-color: #e9523b;
+}
+
+.btn-search button:focus{
+  background-color: #e9523b;
+  border:1px solid;
+}
+
+
+.icon{
+    position: absolute;
+    right: 2px;
+    z-index: 2;
+    top: 2px;
+    font-size: 2em;
+    background-color: #e8eaf0;
+    border-radius: 0px 15px 15px 0px;
+    height: 52px;
+    width: 60px;
+    padding: 10px;
+    color: #ed7966;
+    cursor:pointer;
+    transition: color .3s;
+}
+
+.icon:hover{
+    color:#e9523b;
+}
+
+/* Hacky way to keep search button aligned until error popup implementation */
+button[aria-invalid='true'] {
+    margin-bottom:40px;
+}
