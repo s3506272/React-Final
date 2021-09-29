@@ -1,0 +1,34 @@
+input[aria-invalid='true'] {
+
+        box-shadow: inset 0px 0px 0px 2px red;
+        /* box-sizing:border-box;
+        border:none !important; */
+}
+
+input:focus {
+
+    outline: none !important;
+}
+
+.warning-text{
+  color:red;
+}
+
+.container{
+  max-width:1140px;
+}
+
+.App{
+      background-image: linear-gradient(to left, #f5cac2 , #fff);
+}
+
+.spinner-border{
+  width: 4em;
+  height:4em;
+  color:#303179; 
+}
+
+footer{
+  background-color:#121952;
+  color:#fff;
+}
