@@ -3,30 +3,29 @@ import './Job.css';
 import { Heart as OutLine, HeartFill as Full } from 'react-bootstrap-icons';
 import React from 'react';
 
-const Job = (props) => {
+const Job = ({ job }) => {
 
-    const { "job-url": url, "post-date": date, salary, source, title } = props.job;
+    const { "job-url": url, "post-date": date, salary, source, title } = job;
 
-    const favouriteJobs = useSelector(state => state.favouriteJobs);
+    const favouriteJobs = useSelector(state => state.favourite.favouriteJobs);
     const dispatch = useDispatch();
 
     const handleFaveToggle = (ev) => {
 
-        const indexOf = favouriteJobs.indexOf(props.job);
-
         dispatch({
-            type: `favourites/${indexOf === -1 ? "job_added" : "job_removed"}`,
-            jobFav: props.job
+            type: `favourites/${isFav() ? "job_added" : "job_removed"}`,
+            jobFav: job
         })
 
     }
 
+    // Check if job is already in favourites
     const isFav = () => {
 
-        const indexOf = favouriteJobs.indexOf(props.job);
+        const indexOf = favouriteJobs.indexOf(job);
+        console.log(indexOf)
 
-        const star = indexOf === -1 ? <React.Fragment>{"Save"} <OutLine /> </React.Fragment> : <React.Fragment>{"Saved "} <Full /> </React.Fragment>;
-        return star;
+        return indexOf === -1 ? true : false;
     }
 
     return (
@@ -39,7 +38,7 @@ const Job = (props) => {
                             {title}
 
                         </h2>
-                        {<span onClick={(ev) => handleFaveToggle(ev)}>{isFav()} </span>}
+                        {<span onClick={handleFaveToggle}>{isFav() === true ? <React.Fragment>{"Save"} <OutLine /> </React.Fragment> : <React.Fragment>{"Saved "} <Full /> </React.Fragment>}</span>}
                     </div>
 
                     <div className="py-4 px-4">
