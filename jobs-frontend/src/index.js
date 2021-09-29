@@ -2,19 +2,23 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './Components/App/App.js';
 import reportWebVitals from './reportWebVitals';
-
-
+import { PersistGate } from 'redux-persist/integration/react'
+import factory from './Reducers/ConfigureStore';
 import { Provider } from 'react-redux';
-import { store } from './store';
+
+const { store, persistor } = factory();
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <PersistGate loading={null} persistor={persistor} >
+        <App />
+      </PersistGate>
     </Provider>
-  </React.StrictMode>,
+  </React.StrictMode >,
   document.getElementById('root')
 );
 
