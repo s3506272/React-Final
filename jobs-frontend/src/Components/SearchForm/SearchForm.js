@@ -8,21 +8,25 @@ function SearchForm(props) {
 
     const location = useLocation();
     const history = useHistory();
+    const loading = useSelector(state => state.search.loading); // Update the search button to a loading state when api call triggered
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const loading = useSelector(state => state.loading);
 
+
+    // Push to the history path
     const onSubmit = data => {
 
         history.push({
             pathname: "/search",
             search: `?job=${data.searchJob}&location=${data.searchLocation}&page=1`
         });
+
+
     }
 
     return (
         <section className={`${location.pathname === "/" ? "pb-5 px-5 home-form" : "bg-form pt-3 pb-4"}`}>
-            <div className={`container main-form`}>
+            <div className={`container px-5 main-form`}>
                 <form className="row" onSubmit={handleSubmit(onSubmit)}>
                     <div className="col-sm-5">
                         <div>

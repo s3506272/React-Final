@@ -95,6 +95,6 @@
 }
 
 /* Hacky way to keep search button aligned until error popup implementation */
-button[aria-invalid='true'] {
+/* button[aria-invalid='true'] {
     margin-bottom:40px;
-}
+} */
