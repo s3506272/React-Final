@@ -5,11 +5,8 @@ import './index.css';
 import App from './Components/App/App.js';
 import reportWebVitals from './reportWebVitals';
 import { PersistGate } from 'redux-persist/integration/react'
-import factory from './Reducers/ConfigureStore';
+import { store, persistor } from './Reducers/ConfigureStore';
 import { Provider } from 'react-redux';
-
-const { store, persistor } = factory();
-
 
 ReactDOM.render(
   <React.StrictMode>
