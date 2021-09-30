@@ -5,8 +5,8 @@ import Pagination from '../Pagination/Pagination';
 import Favourites from './FavouritesResults';
 import JobsDisplay from './JobResults';
 
-// const SEARCH_URL = 'https://jobsseach.azurewebsites.net/api/jobs?';
-const SEARCH_URL = 'http://localhost:7071/api/jobs?';
+const SEARCH_URL = 'https://jobsseach.azurewebsites.net/api/jobs?';
+
 
 const SearchResults = (props) => {
 
@@ -32,17 +32,14 @@ const SearchResults = (props) => {
 
         // If stored job and location match url parameters do nothing as not a new search
         if (job === search.get("job") && jobLocation === search.get("location")) {
-            console.log("in the first")
             return;
         }
 
         // Do nothing if on favourites page or if no url parameters for search
-
         if (location.pathname !== "/search" || (search.get("job") === null && search.get("location") === null)) {
-            console.log("in the second")
             return
         }
-        console.log("in the third")
+
         //
         dispatch({
             type: "search/job_added",
@@ -95,7 +92,6 @@ const SearchResults = (props) => {
 
     return (
         <>
-            {jobResults && <div>dsads {console.log(location.pathname)}</div>}
             <div id="top" className="container p-5">
 
                 {location.pathname === '/search' ?
