@@ -1,9 +1,7 @@
 import React from 'react';
 import { HashLink } from 'react-router-hash-link';
 import './Pagination.css';
-
-const NUMPAGES = 20;
-// const BASELINKURL = $ => `/${$.pageType}?job=${$.job}&location=${$.location}&page=${$.page}#top`;
+import { JOB_PAGINATION, FAV_PAGINATION, NUMPAGES } from '../../Lib.js';
 
 // Generate a pagination section with hops of 20 based on the current page number
 // Might want to update to keep in lie with slideshow at some stage
@@ -11,9 +9,10 @@ const NUMPAGES = 20;
 const Pagination = ({ currentPage, pages: totalPages, job, location, pageType }) => {
     let BASELINKURL;
     pageType === "search" ?
-        BASELINKURL = $ => `/${$.pageType}?job=${$.job}&location=${$.location}&page=${$.page}#top` :
-        BASELINKURL = $ => `/${$.pageType}?page=${$.page}#top`
+        BASELINKURL = JOB_PAGINATION :
+        BASELINKURL = FAV_PAGINATION
         ;
+
 
     // Round the start down to the nearest NUMPAGES e.g. 99 will display 1-100 with NUMPAGES = 100
     // Return 1 if starting at 0 since one makes more sense as a first page

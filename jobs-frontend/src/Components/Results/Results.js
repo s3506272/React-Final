@@ -4,9 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import Pagination from '../Pagination/Pagination';
 import Favourites from './FavouritesResults';
 import JobsDisplay from './JobResults';
-
-const SEARCH_URL = 'https://jobsseach.azurewebsites.net/api/jobs?';
-
+import { getJobResults, NUMPAGES } from '../../Lib.js';
 
 const SearchResults = (props) => {
 
@@ -63,14 +61,12 @@ const SearchResults = (props) => {
         })
 
         // Fetch job results based on user search
-        fetch(SEARCH_URL + 'job=' + search.get("job") + '&location=' + search.get("location"))
-            .then(res => res.json())
-            .then(data => dispatch({
+        getJobResults(search.get("job"), search.get("location")).then(data =>
+            dispatch({
 
                 type: 'search/set_jobs', jobResults: data,
             })
-            )
-            .catch(err => console.log('error loading results:', err));
+        ).catch(err => console.log('error loading results:', err));
 
     }, [location])
 
@@ -83,8 +79,8 @@ const SearchResults = (props) => {
         }
 
         setjobPage(newPage);
-        setResultStart(Number(newPage) === 1 ? 0 : (newPage - 1) * 20);
-        setResultEnd((Number(newPage - 1) * 20 + 20));
+        setResultStart(Number(newPage) === 1 ? 0 : (newPage - 1) * NUMPAGES);
+        setResultEnd((Number(newPage - 1) * NUMPAGES + NUMPAGES));
 
     }, [search.get("page")])
 
@@ -125,7 +121,7 @@ const SearchResults = (props) => {
                     // Display pagination
                     jobResults.results && <Pagination
                         currentPage={jobPage}
-                        pages={location.pathname === '/search' ? jobResults.total / 20 : favouriteJobs.length / 20}
+                        pages={location.pathname === '/search' ? jobResults.total / NUMPAGES : favouriteJobs.length / NUMPAGES}
                         job={job}
                         location={jobLocation}
                         pageType={location.pathname === '/search' ? "search" : "favourites"}
