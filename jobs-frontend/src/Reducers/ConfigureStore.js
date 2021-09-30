@@ -4,6 +4,8 @@ import storage from 'redux-persist/lib/storage' // defaults to localStorage for 
 
 import rootReducer from './Reducer.js';
 
+// Persist changes to redux state in local storage
+// Whitelist favouriteJobs so that only it is syncd to local storage
 const persistConfig = {
     key: 'root',
     storage,

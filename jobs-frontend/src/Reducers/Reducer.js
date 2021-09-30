@@ -1,5 +1,4 @@
 import { combineReducers } from 'redux'
-
 import FavouritesReducer from './FavouriteSlice.js'
 import SearchReducer from './SearchSlice.js';
 
@@ -7,7 +6,7 @@ import SearchReducer from './SearchSlice.js';
 // reducers stored in reducer folder for now
 
 const rootReducer = combineReducers({
-    // Define a top-level state field named `todos`, handled by `todosReducer`
+    // Define a top-level state field named search and favourite
     search: SearchReducer,
     favourite: FavouritesReducer
 })
