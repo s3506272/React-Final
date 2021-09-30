@@ -23,7 +23,6 @@ const Job = ({ job }) => {
     const isFav = () => {
 
         const indexOf = favouriteJobs.indexOf(job);
-        console.log(indexOf)
 
         return indexOf === -1 ? true : false;
     }
