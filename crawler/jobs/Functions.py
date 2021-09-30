@@ -1,11 +1,4 @@
-# **************************************************************
-# MAINTENANCE BOX
-# 04.10: Ben O'Brien structured the functions into the Functions file / structure
-# 11.10: Ben O'Brien updated JSON to include the Job URL
-# 11.10: JC - Update source-website -> source (hyphen caused error on frontend)
-# 14.11: Ben O'Brien included posting date as a field to be returned in the JSON
-# 14.11: Ben O'Brien added function to format the post date from '3d ago' to '3 days ago'
-# **************************************************************
+
 
 # function to format a string from '1 of 100 jobs' to '100'
 # used when returning the number of jobs in a search

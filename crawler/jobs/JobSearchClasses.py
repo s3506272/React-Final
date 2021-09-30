@@ -1,21 +1,6 @@
-# **************************************************************
-# MAINTENANCE BOX
-# 04.10: Ben O'Brien structured the job searches into the JobSearchClasses file / structure
-# 05.10: Ben O'Brien structured the classes into an Abstract Base Class and concrete implementation
-# 05.10: Ben O'Brien added the functions for Career One to search the first page
-# 10.10: Ben O'Brien updated the Career One class to integrate with Selenium class and search X pages of results
-# 11.10: Ben O'Brien included Job Search number of results
-# 11.10: Ben O'Brien included Job Search results from additional pages
-# 11.10: Ben O'Brien included the ability for each website to include the job url in results
-# 17.10: Ben O'Brien removed Selenium search from Career One and updated the new solution to use /page_x
-# 17.10: Ben O'Brien identified and fixed bug where career one was not handling exactly 10 results correctly
-# 17.10: Ben O'Brien updated career one to replace '~' with 'est.' for roles where the salary is estimated
-# 18.10: Ben O'Brien created the Neuvoo class
-# 31.10: Ben O'Brien improved the performance of Neuvoo class using multithreading
-# 14.11: Ben O'Brien included posting date as a field to be returned in the JSON
-# **************************************************************
 
 import concurrent.futures
+from bs4.dammit import UnicodeDammit
 import requests
 from . import Functions
 from bs4 import BeautifulSoup
@@ -23,6 +8,7 @@ from abc import ABC, abstractmethod
 import logging
 # re supports string searching as used in neuvoo search
 import re
+import sys
 
 # set constant for the ADDITIONAL number of pages to be searched
 MAX_PAGES = 2
@@ -345,7 +331,6 @@ class CareerOneSearch(AbstractSearch):
         # extract the number of jobs from webpage
         num = self._soup.find(class_='srh-page').get_text()
         num = num.strip()
-        print("dasduhasudiasihd", num)
 
         # no results
         if self.search_empty() is True:
@@ -514,7 +499,6 @@ class NeuvooSearch(AbstractSearch):
 
     # calculate the number of jobs
     def calc_num_jobs(self):
-
         # start by getting the soups for up to the first 3 pages
         self.get_soups()
 
@@ -525,12 +509,15 @@ class NeuvooSearch(AbstractSearch):
 
         # strip all spaces as numbers greater than 999 include a space e.g. 1 250
         content = content.replace(' ', '')
+
         # extract the text between the first number and the first character
         start = re.search(r"\d", content)
         start = start.start()
         content = content[start:]
+
         end = re.search(r"\D", content)
         end = end.start()
+
         self._num_jobs = int(content[:end])
 
     # getter to return the number of jobs
@@ -590,18 +577,24 @@ class NeuvooSearch(AbstractSearch):
         # format the first page without the page number
         if i == 1:
             url = self._url
+
         else:
-            url = self._url + "p=" + str(i)
+            url = self._url + "&p=" + str(i)
+
 
         # try block to return none if there is no additional pages
         try:
             # create the soup
             _page = self._requests_session.get(url)
-            soup = BeautifulSoup(_page.content, 'html.parser')
+            responseTxt = UnicodeDammit.detwingle(_page.text.encode('UTF-8') )   
+
+            soup = BeautifulSoup(responseTxt, 'html.parser')
 
             # if it is the first page being searched, set the soup for the class
             if i == 1:
                 self._soup = soup
+
+
 
             self._soups.append(soup)
 
@@ -617,7 +610,11 @@ class NeuvooSearch(AbstractSearch):
         jobs = jobs.find_all(class_='card card__job')
 
         # create a collection of all the title extracted from the job links
-        titles = [item.find('a').get_text() for item in jobs]
+        titles = [item.find(class_='card__job-link gojob').get_text() for item in jobs]
+        
+        # Create a collection of ids
+        ids = [item.get('dataid') for item in jobs]
+
 
         # create a collection of all the salaries extracted from the job links
         salaries = []
@@ -636,10 +633,11 @@ class NeuvooSearch(AbstractSearch):
         # create a collection of all the job URLs extracted from the job links
         job_urls = []
         for item in jobs:
-            link = item.find('a')
+            link = item.find(class_='card__job-link gojob')
+
             url = 'https://au.neuvoo.com' + link['href']
             job_urls.append(url)
 
         # return a dictionary of job titles and salaries
-        return Functions.create_title_salary_dict(titles, salaries, 'neuvoo', dates, job_urls)
+        return Functions.create_title_salary_dict(ids, titles, salaries, 'neuvoo', dates, job_urls)
 

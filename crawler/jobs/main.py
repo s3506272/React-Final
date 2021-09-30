@@ -1,30 +1,3 @@
-# **************************************************************
-# MAINTENANCE BOX
-# 26.09: Ben O'Brien created the basic crawler functionality to search Seek.com.au and return job titles
-# 27.09: Ben O'Brien updated Daniel's work to extend the search by job and location to indeed, career one and job search
-# 27.09: Ben O'Brien added feature to extract the number of jobs returned in a search
-# 27.09: Ben O'Brien added feature to extract the salary of jobs from indeed
-# 03.10: Ben O'Brien added ability to search the top x pages of search results from Seek
-# 03.10: Ben O'Brien added a timer to measure performance of the query
-# 04.10: Ben O'Brien added ability to search the top x pages of search results from Indeed
-# 04.10: Ben O'Brien added ability to export results for indeed to JSON
-# 05.10: Ben O'Brien included salary in the search for SEEK
-# 05.10: Ben O'Brien included SEEK results in the exported JSON file
-# 07.10: JC - Restructed to Azure Function App
-# 07.10: JC - Updated returned jobs to a function returning JSON
-# 10.10: JC - Remove uneeded git merge files
-# 10.10: Ben O'Brien added ability to extract the title of jobs from the first page of Job Search
-# 11.10: JC - Uncomment CareerOne options until Azure Function Selenium integration is figured out
-# 17.10: Ben O'Brien updated the main function so that it can run in non-server mode to support testing
-# 17.10: Ben O'Brien added a timer for each individual web page performance
-# 18.10: Ben O'Brien added the capability to search Neuvoo
-# 31.10: Ben O'Brien added a class structure to the main file
-# 31.10: Ben O'Brien added multi threading to the main file to allow all job searches to complete concurrently
-# 22.11: Ben O'Brien added exception handling such that the crawler will return blank results if the naming conventions
-# in one of the websites changes and an error exception thrown. Previously this errored out.
-# **************************************************************
-
-
 import time
 import concurrent.futures
 
@@ -297,6 +270,8 @@ class Runtime:
             # instantiate the class and complete the search
             neuvoo = NeuvooSearch(url, location)
             neuvoo.calc_jobs()
+            print("6---------------------------------------------------")
+            print(neuvoo.calc_jobs())
             neuvoo_job_results = neuvoo.get_jobs()
 
             # update job results

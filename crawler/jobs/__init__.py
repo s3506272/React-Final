@@ -1,18 +1,4 @@
 # **************************************************************
-# MAINTENANCE BOX
-# 27.09: James Collins setup api to return jobs using Flask and requests
-# 03.10: James Collins reconfigured api as Azure function app
-# 05.10: James Collins Fixed bugs with import
-# 13.10: JC - Convert function app to upload JSON file to blob storage
-#             and return file name to requester
-# 13.10: JC - Add Azure connection string as configuration setting
-# 13.10: JC - Update to use Azure Function tmp storage folder
-# 19.10: JC - Update to use Github actions workflow for push to server 2
-# 23.09: JC - Update to serve JSON and remove blob storage functionality
-# 28.09: JC - Add total job count to returned JSON 
-# **************************************************************
-
-# **************************************************************
 # Function App Info
 # Configured to run as an Azure (serverless) Function that is started
 # by http requests
